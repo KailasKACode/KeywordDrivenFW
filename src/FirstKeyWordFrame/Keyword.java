@@ -59,7 +59,6 @@ public class Keyword {
 		}
 
 	}
-
 	/**
 	 * Delete all cookies from the open browser:
 	 *@return: void

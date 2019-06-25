@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="TestCases.RegressionTest.Flipcart">
+      <class name="TestCases.RegressionTest.UnionBank">
         <methods>
-          <include name="performOperation"/>
+          <include name="test_01"/>
         </methods>
-      </class> <!-- TestCases.RegressionTest.Flipcart -->
+      </class> <!-- TestCases.RegressionTest.UnionBank -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

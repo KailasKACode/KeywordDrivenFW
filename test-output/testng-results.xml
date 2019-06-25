@@ -2,16 +2,16 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2019-06-22T16:10:42Z" name="Default suite" finished-at="2019-06-22T16:11:05Z" duration-ms="23699">
+  <suite started-at="2019-06-25T10:52:23Z" name="Default suite" finished-at="2019-06-25T10:53:19Z" duration-ms="56029">
     <groups>
     </groups>
-    <test started-at="2019-06-22T16:10:42Z" name="Default test" finished-at="2019-06-22T16:11:05Z" duration-ms="23699">
-      <class name="TestCases.RegressionTest.Flipcart">
-        <test-method signature="performOperation()[pri:0, instance:TestCases.RegressionTest.Flipcart@385e9564]" started-at="2019-06-22T16:10:42Z" name="performOperation" finished-at="2019-06-22T16:11:05Z" duration-ms="23670" status="PASS">
+    <test started-at="2019-06-25T10:52:23Z" name="Default test" finished-at="2019-06-25T10:53:19Z" duration-ms="56029">
+      <class name="TestCases.RegressionTest.UnionBank">
+        <test-method signature="test_01()[pri:0, instance:TestCases.RegressionTest.UnionBank@385e9564]" started-at="2019-06-25T10:52:23Z" name="test_01" finished-at="2019-06-25T10:53:19Z" duration-ms="55981" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- performOperation -->
-      </class> <!-- TestCases.RegressionTest.Flipcart -->
+        </test-method> <!-- test_01 -->
+      </class> <!-- TestCases.RegressionTest.UnionBank -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

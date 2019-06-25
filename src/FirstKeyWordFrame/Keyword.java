@@ -7,19 +7,25 @@
  */
 package FirstKeyWordFrame;
 
-import java.awt.Desktop.Action;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageFilter;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Driver;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Properties;
 
-import javax.swing.plaf.FileChooserUI;
+import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hwpf.usermodel.DateAndTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,14 +33,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.support.ui.Select;
-
-import net.bytebuddy.implementation.bind.annotation.Super;
 
 public class Keyword {
 
-	private static final TakesScreenshot Driver = null;
+	static String DateAndTime = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
+//	static WebElement elements;
+	public static WebDriver driver;
+	public static WebElement element;
+	Actions takeaction = new Actions(driver);
 
 	/**
 	 * Its open specified browser.
@@ -46,30 +53,32 @@ public class Keyword {
 	public static void selectBrowser(String BrowserName) {
 		switch (BrowserName) {
 		case "chrome":
-			Constant.driver = new ChromeDriver();
+			driver = new ChromeDriver();
 			break;
 		case "firefox":
-			Constant.driver = new FirefoxDriver();
+			driver = new FirefoxDriver();
 			break;
 		case "IE":
-			Constant.driver = new InternetExplorerDriver();
+			driver = new InternetExplorerDriver();
 		default:
 			System.err.println("Invalid browsers:");
 			break;
 		}
 
 	}
+
 	/**
 	 * Delete all cookies from the open browser:
-	 *@return: void
+	 * 
+	 * @return: void
 	 */
 	public static void deleteAllCookies() {
-		Constant.driver.manage().deleteAllCookies();
+		driver.manage().deleteAllCookies();
 		System.out.println("Cookies are deleted: ");
 	}
 
 	public static void maxiMizeWindow() {
-		Constant.driver.manage().window().maximize();
+		driver.manage().window().maximize();
 	}
 
 	/**
@@ -79,39 +88,38 @@ public class Keyword {
 	 * @return void
 	 */
 	public static void openUrl(String Url) {
-		Constant.driver.get(Url);
+		driver.get(Url);
 		System.out.println("Please wait loading url....");
 
 	}
 
-	private static WebElement getWebElement(String LocatorType, String locatorValue) {
-		WebElement elements = null;
-		switch (LocatorType) {
+	private static WebElement getWebElement(String locatorType, String locatorValue) {
+		switch (locatorType) {
 		case "XPATH":
-			elements = Constant.driver.findElement(By.xpath(locatorValue));
+			element = driver.findElement(By.xpath(locatorValue));
 			break;
 		case "CSS":
-			elements = Constant.driver.findElement(By.cssSelector(locatorValue));
+			element = driver.findElement(By.cssSelector(locatorValue));
 			break;
 		case "ID":
-			elements = Constant.driver.findElement(By.id(locatorValue));
+			element = driver.findElement(By.id(locatorValue));
 			break;
 		case "LINK_TEXT":
-			elements = Constant.driver.findElement(By.linkText(locatorValue));
+			element = driver.findElement(By.linkText(locatorValue));
 			break;
 		case "PARTIAL_LINK_TEXT":
-			elements = Constant.driver.findElement(By.partialLinkText(locatorValue));
+			element = driver.findElement(By.partialLinkText(locatorValue));
 			break;
 		case "CLASS_NAME":
-			elements = Constant.driver.findElement(By.className(locatorValue));
+			element = driver.findElement(By.className(locatorValue));
 			break;
 
 		default:
-			System.err.println("Invalid Selector: " + LocatorType
+			System.err.println("Invalid Selector: " + locatorType
 					+ "Expected: XPATH,ID,CLASS_NAME,LINK_TEXT,CLASS_NAME,PARTIAL_LINK_TEXT ");
 			break;
 		}
-		return elements;
+		return element;
 
 	}
 
@@ -123,8 +131,8 @@ public class Keyword {
 	 * @param             textToEnter: Which type the data should be enter in the
 	 *                    string format.
 	 */
-	public static void enterText(String LocatorType, String locatorValue, String textToEnter) {
-		getWebElement(LocatorType, locatorValue).sendKeys(textToEnter);
+	public static void enterText(String locatorType, String locatorValue, String textToEnter) {
+		getWebElement(locatorType, locatorValue).sendKeys(textToEnter);
 	}
 
 	/**
@@ -134,13 +142,13 @@ public class Keyword {
 	 * @param locatorValue: pass the value which element need to click
 	 * @return void
 	 */
-	public static void clickOnElements(String LocatorType, String locatorValue) {
-		getWebElement(LocatorType, locatorValue).click();
+	public static void clickOnElements(String locatorValue, String locatorType) {
+		getWebElement(locatorValue, locatorType).click();
 
 	}
 
-	public static void selectFromDropDownList(String LocatorType, String locatorValue, String textToEnter) {
-		WebElement elemets = getWebElement(LocatorType, locatorValue);
+	public static void selectFromDropDownList(String locatorType, String locatorValue, String textToEnter) {
+		WebElement elemets = getWebElement(locatorValue, locatorType);
 		Select select = new Select(elemets);
 		select.selectByVisibleText(textToEnter);
 
@@ -152,9 +160,9 @@ public class Keyword {
 	 * @param LocatorType
 	 * @param locatorValue
 	 */
-	public static void doubleClick(String LocatorType, String locatorValue) {
-		Actions action = new Actions(Constant.driver);
-		WebElement elements = getWebElement(LocatorType, locatorValue);
+	public static void doubleClick(String locatorType, String locatorValue) {
+		Actions action = new Actions(driver);
+		WebElement elements = getWebElement(locatorType, locatorValue);
 		action.doubleClick(elements);
 		action.build().perform();
 
@@ -167,7 +175,7 @@ public class Keyword {
 	 * @param i
 	 */
 	public static void doIFrameSwitch(int i) {
-		Constant.driver.switchTo().frame(i);
+		driver.switchTo().frame(i);
 		System.out.println("Switched on frame: " + i);
 	}
 
@@ -177,24 +185,50 @@ public class Keyword {
 	 * @return void
 	 */
 	public static void doDefultIFrame() {
-		Constant.driver.switchTo().defaultContent();
+		driver.switchTo().defaultContent();
 	}
-	
-	
-	public static String DateAndTime() {
-		String DateAndTime=new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
-		return DateAndTime;
-		
-	}
-	
+
 	public static void takeSimpleScreenshot() throws IOException {
-		File src=((TakesScreenshot)Driver).getScreenshotAs(OutputType.FILE);
-		File des=new File("E:\\goal\\Study Material\\AllScreenShot\\"+DateAndTime()+".png");
+		File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		File des = new File("E:\\Newjava\\KDD\\AllScreenshot\\" + DateAndTime + ".png");
 		FileUtils.copyFile(src, des);
 		try {
 			FileUtils.copyFile(src, des);
 		} catch (IOException e) {
 			System.err.println("File not found");
+		}
+
+	}
+
+	/**
+	 * It will close the open Window
+	 */
+	public static void closeBrowser() {
+		driver.close();
+	}
+
+	/**
+	 * It will close all related browsers are opened
+	 */
+	public static void quitAllBrowsers() {
+		driver.quit();
+
+	}
+
+	public static void screenshotElement(String locatorType, String locatorValue) {
+		getWebElement(locatorType,locatorValue);
+		Point point = element.getLocation();
+		int ht = element.getSize().getHeight();
+		int wt = element.getSize().getWidth();
+		File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		try {
+			BufferedImage fullimage = ImageIO.read(src);
+			BufferedImage logo = fullimage.getSubimage(point.getX(), point.getY(), wt, ht);
+			ImageIO.write(logo, "png", src);
+			FileUtils.copyFile(src, new File("E:\\Newjava\\KDD\\AllScreenshot\\" + DateAndTime + ".png"));
+
+		} catch (IOException e) {
+			System.out.println("File Not found: ");
 		}
 		
 	}

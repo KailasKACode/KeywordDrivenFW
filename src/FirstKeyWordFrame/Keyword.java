@@ -239,7 +239,7 @@ public class Keyword {
 	}
 
 	/**
-	 * It will take fullpage screenshot top-bottom
+	 * It will take full page screenshot top-bottom
 	 * 
 	 */
 	public static void takefullpageScreenshot() {

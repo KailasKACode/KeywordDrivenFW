@@ -28,6 +28,7 @@ public class GetFileProperties {
 		return value;
 	}
 	
+	
 	public static String getProperty(String key,String path) throws IOException {
 		String value = null;
 		try {

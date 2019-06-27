@@ -40,22 +40,25 @@ import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
-public class Keyword {
+public class KeywordWithoutStatic {
 
-	static String DateAndTime = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
-	static WebElement elements;
-	static public WebDriver driver;
-	static public WebElement element;
-	static public Actions takeaction;
+	String DateAndTime = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
+	WebElement elements;
+	public WebDriver driver;
+	public WebElement element;
+	public Actions takeaction;
 
+	public KeywordWithoutStatic(WebDriver driver) {
+		this.driver=driver;
+	}
 	/**
 	 * Its open specified browser.
 	 * 
 	 * @param BrowserName : Browsers should be include the 'chrome', firefox and IE.
 	 *                    No browsers will accept apart listed above
-	 * @return static void
+	 * @return void
 	 */
-	public static void selectBrowser(String BrowserName) {
+	public void selectBrowser(String BrowserName) {
 		switch (BrowserName) {
 		case "chrome":
 			driver = new ChromeDriver();
@@ -75,14 +78,14 @@ public class Keyword {
 	/**
 	 * Delete all cookies from the open browser:
 	 * 
-	 * @return: static void
+	 * @return: void
 	 */
-	public static void deleteAllCookies() {
+	public void deleteAllCookies() {
 		driver.manage().deleteAllCookies();
 		System.out.println("Cookies are deleted: ");
 	}
 
-	public static void maxiMizeWindow() {
+	public void maxiMizeWindow() {
 		driver.manage().window().maximize();
 	}
 
@@ -90,15 +93,15 @@ public class Keyword {
 	 * Its open the specified Url recently opened browser by Driver instance
 	 * 
 	 * @param Url({@code String}) to open
-	 * @return static void
+	 * @return void
 	 */
-	public static void openUrl(String Url) {
+	public void openUrl(String Url) {
 		driver.get(Url);
 		System.out.println("Please wait loading url....");
 
 	}
 
-	private static WebElement getWebElement(String locatorType, String locatorValue) {
+	private WebElement getWebElement(String locatorType, String locatorValue) {
 		switch (locatorType) {
 		case "XPATH":
 			element = driver.findElement(By.xpath(locatorValue));
@@ -136,7 +139,7 @@ public class Keyword {
 	 * @param             textToEnter: Which type the data should be enter in the
 	 *                    string format.
 	 */
-	public static void enterText(String locatorType, String locatorValue, String textToEnter) {
+	public void enterText(String locatorType, String locatorValue, String textToEnter) {
 		getWebElement(locatorType, locatorValue).sendKeys(textToEnter);
 	}
 
@@ -145,14 +148,14 @@ public class Keyword {
 	 * 
 	 * @param LocatorType:This will locator
 	 * @param locatorValue: pass the value which element need to click
-	 * @return static void
+	 * @return void
 	 */
-	public static void clickOnElements(String locatorValue, String locatorType) {
+	public void clickOnElements(String locatorValue, String locatorType) {
 		getWebElement(locatorValue, locatorType).click();
 
 	}
 
-	public static void selectFromDropDownList(String locatorType, String locatorValue, String textToEnter) {
+	public void selectFromDropDownList(String locatorType, String locatorValue, String textToEnter) {
 		WebElement elemets = getWebElement(locatorValue, locatorType);
 		Select select = new Select(elemets);
 		select.selectByVisibleText(textToEnter);
@@ -165,7 +168,7 @@ public class Keyword {
 	 * @param LocatorType
 	 * @param locatorValue
 	 */
-	public static void doubleClick(String locatorType, String locatorValue) {
+	public void doubleClick(String locatorType, String locatorValue) {
 		Actions action = new Actions(driver);
 		WebElement elements = getWebElement(locatorType, locatorValue);
 		action.doubleClick(elements);
@@ -179,7 +182,7 @@ public class Keyword {
 	 * 
 	 * @param i
 	 */
-	public static void doIFrameSwitch(int i) {
+	public void doIFrameSwitch(int i) {
 		driver.switchTo().frame(i);
 		System.out.println("Switched on frame: " + i);
 	}
@@ -187,13 +190,13 @@ public class Keyword {
 	/***
 	 * It will switch the default frame.(Original fram).
 	 * 
-	 * @return static void
+	 * @return void
 	 */
-	public static void doDefultIFrame() {
+	public void doDefultIFrame() {
 		driver.switchTo().defaultContent();
 	}
 
-	public static void takeCurrentPageScreenShot() throws IOException {
+	public void takeCurrentPageScreenShot() throws IOException {
 		File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		File des = new File("E:\\Newjava\\KDD\\AllScreenshot\\" + DateAndTime + ".png");
 		FileUtils.copyFile(src, des);
@@ -208,19 +211,19 @@ public class Keyword {
 	/**
 	 * It will close the open Window
 	 */
-	public static void closeBrowser() {
+	public void closeBrowser() {
 		driver.close();
 	}
 
 	/**
 	 * It will close all related browsers are opened
 	 */
-	public static void quitAllBrowsers() {
+	public void quitAllBrowsers() {
 		driver.quit();
 
 	}
 
-	public static void takeScreenshotOfElement(String locatorType, String locatorValue) {
+	public void takeScreenshotOfElement(String locatorType, String locatorValue) {
 		getWebElement(locatorType, locatorValue);
 		Point point = element.getLocation();
 		int ht = element.getSize().getHeight();
@@ -242,7 +245,7 @@ public class Keyword {
 	 * It will take fullpage screenshot top-bottom
 	 * 
 	 */
-	public static void takefullpageScreenshot() {
+	public void takefullpageScreenshot() {
 		AShot shot = new AShot();
 		shot.shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(driver);
 		Screenshot sc = shot.takeScreenshot(driver);
@@ -260,40 +263,18 @@ public class Keyword {
 	 * 
 	 * @param jcommand
 	 */
-	public static void usingJScriptsOperation(String jcommand) {
+	public void usingJScriptOperation(String jcommand) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeAsyncScript(jcommand);
 
 	}
 
-	/**
-	 * Incomplete method need to improve
-	 * @param locatorType
-	 * @param locatorValue
-	 */
-	public static void dragAndDrop(String locatorType, String locatorValue) {
+	public void dragAndDrop(String locatorType, String locatorValue) {
 		getWebElement(locatorType, locatorValue);
 		new Actions(driver);
 		takeaction.moveToElement(element);
 		takeaction.build().perform();
 
 	}
-	
-	/**
-	 * 
-	 * It will refresh the page
-	 */
-	public static void refreshPage() {
-		driver.navigate().refresh();
-	}
-	
-	/**
-	 * 
-	 * It should will show the title of the current open webpage
-	 */
-	public static void getTitle() {
-		driver.getTitle();
-	}
-	
 
 }

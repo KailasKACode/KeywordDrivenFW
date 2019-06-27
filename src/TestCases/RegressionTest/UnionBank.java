@@ -16,8 +16,9 @@ public class UnionBank {
 		Keyword.enterText("XPATH", GetFileProperties.getProperty("FirstName"), "Ramlal");
 		Keyword.enterText("XPATH", GetFileProperties.getProperty("FatherName"), "Kisan");
 		Keyword.enterText("XPATH", GetFileProperties.getProperty("MotherName"), "TaraBai");
-		Keyword.screenshotElement("XPATH", GetFileProperties.getProperty("FatherName"));
-		Keyword.takeSimpleScreenshot();
+		Keyword.takeScreenshotOfElement("XPATH", GetFileProperties.getProperty("FatherName"));
+		Keyword.takeCurrentPageScreenShot();
+		Keyword.takefullpageScreenshot();
 		Keyword.clickOnElements("XPAT", GetFileProperties.getProperty("Toclick"));
 		Keyword.closeBrowser();
 
